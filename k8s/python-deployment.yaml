@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-delivery
+  labels:
+    app: python-delivery
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: python-delivery
+  template:
+    metadata:
+      labels:
+        app: python-delivery
+    spec:
+      containers:
+      - name: python-delivery
+        image: varmasai10/python:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8010
+        env:
+        - name: FLASK_ENV
+          value: "production"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        readinessProbe:
+          httpGet:
+            path: /hello
+            port: 8010
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /hello
+            port: 8010
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-delivery
+  labels:
+    app: python-delivery
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8010
+    targetPort: 8010
+    protocol: TCP
+    name: http
+  selector:
+    app: python-delivery
