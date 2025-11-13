@@ -367,7 +367,12 @@ func createDeliveryHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, err := http.Post("http://localhost:8085/delivery", "application/json", bytes.NewBuffer(jsonData))
+	javaServiceURL := os.Getenv("JAVA_SERVICE_URL")
+	if javaServiceURL == "" {
+		javaServiceURL = "http://localhost:8085"
+	}
+
+	resp, err := http.Post(javaServiceURL+"/delivery", "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		http.Error(w, "Error calling Java API: "+err.Error(), http.StatusInternalServerError)
 		return

@@ -14,7 +14,7 @@ import org.json.JSONObject;
 public class hello {
     public static void main(String[] args) throws IOException{
         System.out.println("Hello, World!");
-        HttpServer server = HttpServer.create(new InetSocketAddress(8085), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", 8085), 0);
         server.createContext("/hello", new HelloHandler());
         server.createContext("/delivery", new DeliveryHandler());
 
@@ -109,7 +109,12 @@ public class hello {
 
                 // Notify delivery API
                 try {
-                    java.net.URL url = URI.create("http://localhost:8010/deliveryinitiated").toURL();
+                    String pythonServiceURL = System.getenv("PYTHON_SERVICE_URL");
+                    if (pythonServiceURL == null || pythonServiceURL.isEmpty()) {
+                        pythonServiceURL = "http://localhost:8010";
+                    }
+                    
+                    java.net.URL url = URI.create(pythonServiceURL + "/deliveryinitiated").toURL();
                     java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json");
