@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package foodorder;
+
+option go_package = "foodorder/proto";
+
+// Service definition
+service FoodOrderService {
+  rpc GetMenu(MenuRequest) returns (MenuResponse);
+}
+
+// Request message for getting menu
+message MenuRequest {
+  string restaurant_name = 1;
+}
+
+// Menu item
+message MenuItem {
+  string item_name = 1;
+  double price = 2;
+}
+
+// Response message for menu
+message MenuResponse {
+  repeated MenuItem items = 1;
+}
