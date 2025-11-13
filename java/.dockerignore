@@ -1,0 +1,11 @@
+# Compiled classes
+target/
+bin/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store

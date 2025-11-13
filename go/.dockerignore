@@ -1,0 +1,11 @@
+# Binaries
+main
+1
+pbgen
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store

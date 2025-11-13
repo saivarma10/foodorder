@@ -8,6 +8,8 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"strconv"
 
 	pb "food/proto"
 
@@ -153,16 +155,38 @@ func readMessages(conn *kafka.Conn, minSize int, maxSize int) {
 } //end readMessages
 
 func connectsql() (*sql.DB, error) {
-	const (
-		HOST     = "localhost"
-		PORT     = 5432
-		USER     = "postgres"
-		PASSWORD = "mysecretpassword"
-		DBNAME   = "postgres"
-	)
+	// Read from environment variables with defaults
+	host := os.Getenv("DB_HOST")
+	if host == "" {
+		host = "localhost"
+	}
+
+	portStr := os.Getenv("DB_PORT")
+	port := 5432
+	if portStr != "" {
+		if p, err := strconv.Atoi(portStr); err == nil {
+			port = p
+		}
+	}
+
+	user := os.Getenv("DB_USER")
+	if user == "" {
+		user = "postgres"
+	}
+
+	password := os.Getenv("DB_PASSWORD")
+	if password == "" {
+		password = "mysecretpassword"
+	}
+
+	dbname := os.Getenv("DB_NAME")
+	if dbname == "" {
+		dbname = "postgres"
+	}
+
 	connString := fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		HOST, PORT, USER, PASSWORD, DBNAME,
+		host, port, user, password, dbname,
 	)
 
 	DB, err := sql.Open("postgres", connString)

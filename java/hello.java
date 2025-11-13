@@ -32,9 +32,33 @@ public class hello {
                 return;
             }
 
-            String jdbcURL = "jdbc:postgresql://localhost:5432/postgres";
-            String username = "postgres";
-            String password = "mysecretpassword";
+            // Read from environment variables with defaults
+            String dbHost = System.getenv("DB_HOST");
+            if (dbHost == null || dbHost.isEmpty()) {
+                dbHost = "localhost";
+            }
+
+            String dbPort = System.getenv("DB_PORT");
+            if (dbPort == null || dbPort.isEmpty()) {
+                dbPort = "5432";
+            }
+
+            String username = System.getenv("DB_USER");
+            if (username == null || username.isEmpty()) {
+                username = "postgres";
+            }
+
+            String password = System.getenv("DB_PASSWORD");
+            if (password == null || password.isEmpty()) {
+                password = "mysecretpassword";
+            }
+
+            String dbName = System.getenv("DB_NAME");
+            if (dbName == null || dbName.isEmpty()) {
+                dbName = "postgres";
+            }
+
+            String jdbcURL = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
 
             try {
                 // Read request body
@@ -130,10 +154,34 @@ public class hello {
     static class HelloHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
-                   String jdbcURL
-            = "jdbc:postgresql://localhost:5432/postgres";
-        String username = "postgres";
-        String password = "mysecretpassword";
+            // Read from environment variables with defaults
+            String dbHost = System.getenv("DB_HOST");
+            if (dbHost == null || dbHost.isEmpty()) {
+                dbHost = "localhost";
+            }
+
+            String dbPort = System.getenv("DB_PORT");
+            if (dbPort == null || dbPort.isEmpty()) {
+                dbPort = "5432";
+            }
+
+            String username = System.getenv("DB_USER");
+            if (username == null || username.isEmpty()) {
+                username = "postgres";
+            }
+
+            String password = System.getenv("DB_PASSWORD");
+            if (password == null || password.isEmpty()) {
+                password = "mysecretpassword";
+            }
+
+            String dbName = System.getenv("DB_NAME");
+            if (dbName == null || dbName.isEmpty()) {
+                dbName = "postgres";
+            }
+
+            String jdbcURL = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
+
         try {
             // Load the PostgreSQL JDBC driver
             Class.forName("org.postgresql.Driver");
