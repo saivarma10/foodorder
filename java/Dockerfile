@@ -14,7 +14,7 @@ COPY hello.java .
 RUN mvn clean compile
 
 # Final stage
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-jammy
 
 WORKDIR /app
 

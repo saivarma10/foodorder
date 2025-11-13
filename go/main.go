@@ -102,11 +102,16 @@ func startGRPCServer() {
 
 // db sql for instrumentation testing
 func connectkafka(topic string, partition int) (*kafka.Conn, error) {
+	kafkaBroker := os.Getenv("KAFKA_BROKER")
+	if kafkaBroker == "" {
+		kafkaBroker = "localhost:9092"
+	}
+
 	dialer := &kafka.Dialer{
 		Timeout:  10 * time.Second,
 		ClientID: "foodorder-client",
 	}
-	conn, err := dialer.DialLeader(context.Background(), "tcp", "localhost:9092", topic, partition)
+	conn, err := dialer.DialLeader(context.Background(), "tcp", kafkaBroker, topic, partition)
 	if err != nil {
 		fmt.Println("failed to dial leader:", err)
 		return nil, err
@@ -480,10 +485,15 @@ func main() {
 	}
 	go startGRPCServer()
 
+	kafkaBroker := os.Getenv("KAFKA_BROKER")
+	if kafkaBroker == "" {
+		kafkaBroker = "localhost:9092"
+	}
+
 	fmt.Println("Order Details:", order)
 	topic := "wave"
 	partition := 0
-	c, err := kafka.Dial("tcp", "localhost:9092")
+	c, err := kafka.Dial("tcp", kafkaBroker)
 	if err != nil {
 		fmt.Println("failed to connect to Kafka broker:", err)
 		return
@@ -508,7 +518,7 @@ func main() {
 	log.Println("Kafka insert completed successfully")
 
 	reader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers:  []string{"localhost:9092"},
+		Brokers:  []string{kafkaBroker},
 		Topic:    "wave",
 		GroupID:  "wave", // Consumer group
 		MinBytes: 10,
