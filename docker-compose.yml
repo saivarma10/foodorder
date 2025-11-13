@@ -120,7 +120,7 @@ services:
         condition: service_started
     ports:
       - "8081:8081"
-      - "50058:50058"
+      - "51058:51058"
     environment:
       DB_HOST: postgres
       DB_PORT: 5432

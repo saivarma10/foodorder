@@ -78,7 +78,7 @@ func (s *foodOrderServer) GetMenu(ctx context.Context, req *pb.MenuRequest) (*pb
 }
 
 func startGRPCServer() {
-	lis, err := net.Listen("tcp", ":50058")
+	lis, err := net.Listen("tcp", ":51058")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -86,7 +86,7 @@ func startGRPCServer() {
 	s := grpc.NewServer()
 	pb.RegisterFoodOrderServiceServer(s, &foodOrderServer{})
 
-	log.Println("gRPC server on :50058")
+	log.Println("gRPC server on :51058")
 	s.Serve(lis)
 }
 

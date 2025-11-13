@@ -27,8 +27,8 @@ WORKDIR /root/
 # Copy the binary from builder
 COPY --from=builder /app/main .
 
-# Expose ports (8081 for HTTP, 50058 for gRPC)
-EXPOSE 8081 50058
+# Expose ports (8081 for HTTP, 51058 for gRPC)
+EXPOSE 8081 51058
 
 # Run the application
 CMD ["./main"]
