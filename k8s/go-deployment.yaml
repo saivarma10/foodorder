@@ -44,7 +44,7 @@ spec:
               name: postgres-config
               key: POSTGRES_DB
         - name: KAFKA_BROKER
-          value: "kafka:29092"
+          value: "kafka:9092"
         - name: JAVA_SERVICE_URL
           value: "http://java-service:8085"
         resources:
