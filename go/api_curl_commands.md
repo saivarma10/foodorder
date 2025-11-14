@@ -17,7 +17,7 @@ curl -X POST http://localhost:8081/insert -H "Content-Type: application/json" -d
 
 ## Create Restaurant API
 ```bash
-curl -X POST http://localhost:8081/createrestaurant -H "Content-Type: application/json" -d '{"name": "Restaurant Name", "location": "Location"}'
+curl -X POST http://localhost:8081/createrestaurant -H "Content-Type: application/json" -d '{"name": "Restaurant Name2", "location": "Location"}'
 ```
 
 ## Add Menu Item API
@@ -43,7 +43,7 @@ curl -X POST http://localhost:8081/getmenubyrestaurant \
 ## Create Delivery API
 ```bash
  curl -X POST http://localhost:8081/createdelivery   -H "Content-Type: application/json"   -d '{
-    "restaurant_name": "Pizza Palace",
+    "restaurant_name": "Restaurant Name2",
     "restaurant_id": 1,
     "order_id": 1001,
     "delivery_name": "John Driver",

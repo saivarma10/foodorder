@@ -1,5 +1,5 @@
-# Build stage
-FROM maven:3.8-openjdk-11 AS build
+# Use Maven image with JDK
+FROM maven:3.8-openjdk-11
 
 # Set working directory
 WORKDIR /app
@@ -8,22 +8,8 @@ WORKDIR /app
 COPY pom.xml .
 COPY hello.java .
 
-# Compile the application
+# Compile the application during build
 RUN mvn clean compile
-
-# Runtime stage
-FROM openjdk:11-jre-slim
-
-WORKDIR /app
-
-# Copy compiled classes and dependencies from build stage
-COPY --from=build /app/target/classes /app/target/classes
-COPY --from=build /app/target/dependency /app/target/dependency
-COPY --from=build /root/.m2/repository /root/.m2/repository
-COPY pom.xml .
-
-# Install maven (needed for exec:java)
-RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 
 # Expose port
 EXPOSE 8085
