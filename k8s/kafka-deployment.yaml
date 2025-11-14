@@ -114,13 +114,19 @@ spec:
           value: "false"
         - name: KAFKA_HEAP_OPTS
           value: "-Xmx512m -Xms256m"
+        - name: KAFKA_JMX_PORT
+          value: "9999"
+        - name: KAFKA_JMX_HOSTNAME
+          value: "localhost"
         readinessProbe:
-          tcpSocket:
-            port: 9092
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        livenessProbe:
           tcpSocket:
             port: 9092
           initialDelaySeconds: 60
           periodSeconds: 10
+          failureThreshold: 5
+        livenessProbe:
+          tcpSocket:
+            port: 9092
+          initialDelaySeconds: 90
+          periodSeconds: 10
+          failureThreshold: 5
